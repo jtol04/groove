@@ -51,5 +51,7 @@ For the revised project description, we will ask you to be more precise and thin
 ## Requirements / Dependencies 
 If there are any specific hardware, software, data sets, or online services / APIs you think you are going to use, please list them in the Requirements section. This includes any Python packages you will want to import. This section can be tentative for the initial proposal and the teaching staff can help identify resources.
 
+How are you going to use AI in this project (for code generation, testing, or actually using an LLM for some part of your project)? 
+
 ## Milestones 
 Not required for the initial proposal. Complete this section for the revised proposal.
