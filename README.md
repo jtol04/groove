@@ -1,57 +1,93 @@
 # COMS W2132 Intermediate Computing in Python, Final Project 
-## <Title for your Project>
+## Groove
 
 ### Author:
-- [Nomen Nescio](https://github.com/...) <nn123@columbia.edu>
- 
-Replace the author name/email with your information.
+- [Jary Tolentino](https://github.com/jtol04) <jt3577@columbia.edu>
 
 ## Project Category
 
-Please select up to two items from the following list of categories that best describe your project:
-
-* Game
-* Interactive Simulation
-* Data Analysis / Visualization
 * Machine Learning
-* Automation / Scripting / Dev Tools
-* Web Application (front-end)
-* Web Service (back-end or API)
 * Web Application (full stack)
-* Scientific / Numerical Computing
-* Education, Tutoring or Learning Tool
-* Search / information retrieval / data access and query tools
-* Other: [describe above]
 
-Please select which type of application best describes your project:
-* Stand-alone Command Line Application 
-* Stand-alone GUI Application
-* Jupyter Notebook
-* Python Package / Library (to be used by others)
-* User-facing Web-app 
-* API service
+**Application type:** User-facing Web-app
 
+## Project Abstract
 
-## Project Abstract 
-Add an initial project proposal here. There is no requirement for the length of the abstract. A paragraph or two may be enough -- just to get an idea of what you might want to work on. You can (but do not have to) structure it along the following points: 
+Music streaming platforms have built-in music recommendation algorithms that recommend users songs based on playlists they've created and songs they've listened to. Groove is an app that takes inspiration from this and learns a user's music preferences through a simple and interactive swipe interface (similar to Tinder) and recommends new songs even before they listen. 
 
-* What is the problem you are solving, or who is the target user? What are you trying to accomplish? 
-* What data/user interactions are expected as input? 
-* What does the program produce (files, visualizations, predictions, responses, UI behavior)? 
+Groove is built around a machine learning classifier trained on Spotify audio features (danceability, energy, valence, tempo, acousticness, etc.) from the Spotify Tracks Dataset. Users swipe right or left on short song previews, and the system builds a personalized taste profile. A trained model then scores unseen tracks and returns recommendations ranked by predicted enjoyment.
 
-For the revised project description, we will ask you to be more precise and think about how the entire project can be divided up into individual pieces or modules. It's useful to start thinking about this now.
+**Input:** User can swipe to like or dislike the songs, each linked to its Spotify audio features.
+
+**Output:** A personalized taste profile dashboard and a ranked list of recommended tracks. The frontend displays the swipe UI, taste dashboard, and recommended tracks while the backend handles model inference, user session management, and data storage.
 
 ## Scope / Challenges
 
-* Define some specific deliverables of features you intent to build (In-Scope)
-* Define some specific features you will specificallt not build (Out-of-Scope) 
-* Which part of the project do you expect to be easy and which parts do you think will be challenging or uncertain?  
-* How would you define "success" for the project even if you didn't complete all planned features?
+### In-Scope (Deliverables)
+- **ML model:** Train a binary classifier (like/skip) on Spotify audio features using scikit-learn (either logistic regression, random forest, or gradient boosting). Evaluate with accuracy, precision, recall, and AUC.
+- **FastAPI backend:** REST API endpoints for serving song candidates, recording swipe decisions, running model inference, and returning recommendations. User session management with simple auth.
+- **Angular frontend:** Tinder-style swipe card UI for songs (with album art, song name, preview clip), a taste profile dashboard with radar/bar charts, and a recommendations list view. Built with TypeScript and Angular's built-in routing, HttpClient, and animations modules.
+- **Database:** SQLite (or PostgreSQL) to save user swipe history and taste profiles.
+- **Data pipeline:** Script to pull and process audio features from the Spotify Tracks Dataset (Kaggle) into a clean training set.
 
-## Requirements / Dependencies 
-If there are any specific hardware, software, data sets, or online services / APIs you think you are going to use, please list them in the Requirements section. This includes any Python packages you will want to import. This section can be tentative for the initial proposal and the teaching staff can help identify resources.
+### Out-of-Scope
+- Live Spotify API integration for real-time streaming or OAuth login (I'll be using a static dataset instead to avoid API rate limits and auth complexity).
+- Collaborative filtering or deep learning models to keep the ML straightforward and interpretable.
+- Won't be depployed as a mobile-native app.
+- Runs locally for the course project.
 
-How are you going to use AI in this project (for code generation, testing, or actually using an LLM for some part of your project)? 
+### Easy vs. Challenging
+- **Expected to be straightforward:** Training the classifier on tabular audio features, building basic CRUD API endpoints, setting up the Angular project scaffold with Angular CLI.
+- **Expected to be challenging:** Building a smooth, responsive swipe UI with Angular Animations; connecting the frontend ↔ backend ↔ model inference pipeline end-to-end; designing an effective cold-start strategy (what songs to show before the model has enough swipe data); learning Angular's component architecture and RxJS observables.
 
-## Milestones 
-Not required for the initial proposal. Complete this section for the revised proposal.
+### Definition of Success
+The minimum viable project is: a user can open the web app, swipe through at least 20 songs, and receive a ranked list of recommendations generated by the trained model — with a visible taste profile. Even if the recommendation quality isn't perfect, a working end-to-end pipeline (swipe, store, infer, display) counts as a success.
+
+## Requirements / Dependencies
+
+### Software & Libraries
+- **Python 3.10+**
+- **FastAPI** — backend framework
+- **Uvicorn** — ASGI server
+- **scikit-learn** — model training and inference
+- **pandas / numpy** — data manipulation
+- **SQLite** (via Python `sqlite3`) or **SQLAlchemy** — database
+- **Angular 17+** — frontend framework (with TypeScript)
+- **Angular HttpClient** — built-in HTTP client for API calls
+- **Angular Animations** — swipe card animations
+- **ng2-charts** (Chart.js wrapper) or **ngx-echarts** — taste profile visualizations
+- **Node.js / npm / Angular CLI** — frontend build tooling
+
+### Dataset
+- [Spotify Tracks Dataset](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) on Kaggle (~114k tracks with audio features and metadata)
+
+### Hardware
+- MacBook Pro M1, no GPU required (tabular ML with scikit-learn)
+
+### AI Usage
+- AI (Claude / ChatGPT) will be used to assist with code generation for front-end boilerplate. AI won't be used as part of the backend, application's runtime, and the ML model will be trained independently.
+
+## Milestones
+
+### Milestone 1 — Data & Model (Week 1)
+- Download and clean the Spotify Tracks Dataset
+- Train baseline classifier, evaluate metrics, save model
+
+### Milestone 2 — Backend API (Week 2)
+- Set up FastAPI project structure
+- Implement endpoints: `GET /songs` (serve candidates), `POST /swipe` (record decision), `GET /recommendations` (model predictions), `GET /profile` (taste summary)
+- Database schema and session management
+- Integrate saved model for inference
+
+### Milestone 3 — Frontend (Week 3)
+- Angular app scaffold with Angular CLI, routing, and module structure
+- Swipe card component with Angular Animations (touch/drag support)
+- Taste profile dashboard with charts (ng2-charts or ngx-echarts)
+- Recommendations list view
+- Connect all views to backend API via Angular HttpClient and services
+
+### Milestone 4 — Integration & Polish (Week 4)
+- End-to-end testing of full pipeline
+- Cold-start logic (initial song selection strategy)
+- UI polish, error handling, loading states
+- Write final documentation
