@@ -1,5 +1,4 @@
-# COMS W2132 Intermediate Computing in Python, Final Project 
-## Groove
+# Groove
 
 ### Author:
 - [Jary Tolentino](https://github.com/jtol04) <jt3577@columbia.edu>
@@ -37,7 +36,7 @@ Groove is built around a machine learning classifier trained on Spotify audio fe
 - Live Spotify API integration for real-time streaming or OAuth login (I'll be using a static dataset instead to avoid API rate limits and auth complexity).
 - Collaborative filtering or deep learning models to keep the ML straightforward and interpretable.
 - Won't be depployed as a mobile-native app.
-- Runs locally for the course project.
+- Runs locally.
 
 ### Easy vs. Challenging
 - **Expected to be straightforward:** Training the classifier on tabular audio features, building basic CRUD API endpoints, setting up the Angular project scaffold with Angular CLI.

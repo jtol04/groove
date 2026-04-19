@@ -1,4 +1,5 @@
 # https://pylearnai.com/machine-learning/deploy-scikit-learn-models-fastapi/
+# dictionary and priority queue implementations
 
 from fastapi import FastAPI
 from pydantic import BaseModel 
@@ -6,11 +7,19 @@ import joblib
 import numpy as np
 import pandas as pd
 import heapq
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title = "Groove Classifier API",
     description = "An API that predicts whether a user would like a given song or not",
     version = "1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 model = joblib.load("models/groove_model.pkl")
@@ -70,6 +79,7 @@ class Swipe(BaseModel):
     track_id: str
     liked: bool
 
+# dictionary
 user_swipes = {}
 
 @app.post("/swipe")
@@ -95,6 +105,7 @@ def get_recommendations(n: int = 8):
     X_scaled = scaler.transform(X)
     probabilities = model.predict_proba(X_scaled)[:, 1]
 
+    # priority queue implementation
     top_n = heapq.nlargest(n, range(len(probabilities)), key = lambda i: probabilities[i])
 
     recs = []
